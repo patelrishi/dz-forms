@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Container, Divider } from "@mui/material";
 import { makeStyles } from "@material-ui/core";
@@ -96,11 +96,18 @@ let ComponentArr = [
   },
 ];
 
-const FormMain = () => {
+const FormMain = ({ formData }) => {
   const classes = useStyles();
 
-  const [formCompArray, setformCompArray] = useState(ComponentArr);
-  const [edit, setedit] = useState(false);
+  const [formDetails, setformData] = useState("");
+  const [formCompArray, setformCompArray] = useState([]);
+
+  useEffect(() => {
+    if (formData?.questions !== undefined) {
+      setformCompArray(formData?.questions);
+      setformData(formData);
+    }
+  }, [formData]);
 
   const reorder = (list, startIndex, endIndex) => {
     const result = Array.from(list);
@@ -132,7 +139,6 @@ const FormMain = () => {
 
   const handleCopyQuestion = (obj, i) => {
     let tempArr = [...formCompArray];
-    console.log(i, obj);
     tempArr.splice(i, 0, obj);
     setformCompArray(tempArr);
   };
@@ -157,25 +163,19 @@ const FormMain = () => {
     <Container className={classes.formRoot} maxWidth="md">
       <div>
         <div className={classes.formTitleSection}>
-          {edit ? (
-            <>
-              <H1 medium>untitled</H1>
-              <H4>description</H4>
-            </>
-          ) : (
-            <>
-              <CommonTextField
-                variant="standard"
-                color="primary"
-                value={"Untitled form"}
-              />
-              <CommonTextField
-                variant="standard"
-                color="primary"
-                value={"Description"}
-              />
-            </>
-          )}
+          <>
+            <CommonTextField
+              variant="standard"
+              color="primary"
+              value={formData?.name}
+            />
+            <CommonTextField
+              variant="standard"
+              color="primary"
+              value={formData?.description}
+            />
+          </>
+
           <Divider />
           <H6>Enter Valid Email</H6>
           <CommonTextField

@@ -1,5 +1,5 @@
 import { all } from "redux-saga/effects";
-import { formCreateWatcher } from "./form/FormSaga";
+import { formCreateWatcher, formDetailsWatcher } from "./form/FormSaga";
 import {
   userDetailsWatcher,
   userLoginWatcher,
@@ -12,5 +12,6 @@ export default function* rootSaga() {
     userRegisterWatcher(),
     userDetailsWatcher(),
     formCreateWatcher(),
+    formDetailsWatcher(),
   ]);
 }
