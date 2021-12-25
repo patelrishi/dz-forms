@@ -96,19 +96,36 @@ let ComponentArr = [
   },
 ];
 
-const FormMain = ({ formData }) => {
+const FormMain = ({ formData, updateFormDetails }) => {
   const classes = useStyles();
 
-  const [formDetails, setformData] = useState("");
-  const [formCompArray, setformCompArray] = useState([]);
+  const [formDetails, setFormDetails] = useState("");
+  // const [formCompArray, setformCompArray] = useState([]);
 
   useEffect(() => {
     if (formData?.questions !== undefined) {
-      setformCompArray(formData?.questions);
-      setformData(formData);
+      // setformCompArray(formData?.questions);
+      setFormDetails(formData);
     }
   }, [formData]);
 
+  const handleTitleChange = (value) => {
+    let tempObj = { ...formDetails };
+    tempObj.name = value;
+    setFormDetails(tempObj);
+  };
+  const handleDesChange = (value) => {
+    let tempObj = { ...formDetails };
+    tempObj.description = value;
+    setFormDetails(tempObj);
+  };
+
+  useEffect(() => {
+    if (formDetails !== "") {
+      updateFormDetails(formDetails);
+    }
+  }, [formDetails]);
+  // swap functions
   const reorder = (list, startIndex, endIndex) => {
     const result = Array.from(list);
     const [removed] = result.splice(startIndex, 1);
@@ -128,36 +145,38 @@ const FormMain = ({ formData }) => {
     }
 
     const sortedOrder = reorder(
-      formCompArray,
+      formDetails.questions,
       result.source.index,
       result.destination.index
     );
-
-    setformCompArray(sortedOrder);
-    // console.log(sortedOrder);
+    formDetails.questions = sortedOrder;
+    setFormDetails(sortedOrder);
   }
 
   const handleCopyQuestion = (obj, i) => {
-    let tempArr = [...formCompArray];
+    let tempArr = [...formDetails.questions];
     tempArr.splice(i, 0, obj);
-    setformCompArray(tempArr);
+    formDetails.questions = tempArr;
+    setFormDetails(formDetails);
   };
 
   const HandleUpdateQuestion = (value, i) => {
-    let tempArr = [...formCompArray];
+    let tempArr = [...formDetails.questions];
     // get object index
     const objIndex = tempArr.findIndex((obj, index) => index === i);
     // update that object
     tempArr[objIndex].optiontext = value;
-    setformCompArray(tempArr);
+    formDetails.questions = tempArr;
+    setFormDetails(formDetails);
   };
 
   const handleRemoveQuestion = (i) => {
-    let tempArr = [...formCompArray];
+    let tempArr = [...formDetails.questions];
     // get object index
     const updatedArr = tempArr.filter((obj, index) => index !== i);
     // update that object
-    setformCompArray(updatedArr);
+    formDetails.questions = updatedArr;
+    setFormDetails(formDetails);
   };
   return (
     <Container className={classes.formRoot} maxWidth="md">
@@ -167,12 +186,14 @@ const FormMain = ({ formData }) => {
             <CommonTextField
               variant="standard"
               color="primary"
-              value={formData?.name}
+              value={formDetails?.name}
+              onChange={(e) => handleTitleChange(e.target.value)}
             />
             <CommonTextField
               variant="standard"
               color="primary"
-              value={formData?.description}
+              value={formDetails?.description}
+              onChange={(e) => handleDesChange(e.target.value)}
             />
           </>
 
@@ -191,7 +212,7 @@ const FormMain = ({ formData }) => {
           <Droppable droppableId="list">
             {(provided) => (
               <div ref={provided.innerRef} {...provided.droppableProps}>
-                {formCompArray.map((item, index) => {
+                {formDetails?.questions?.map((item, index) => {
                   return (
                     <Draggable
                       draggableId={`${index}`}

@@ -5,6 +5,7 @@ import { MemoryRouter, useParams } from "react-router-dom";
 import {
   START_CREATE_FORM,
   START_GET_FORM_DETAILS,
+  START_UPDATE_FORM_DETAILS,
 } from "../constants/FormConstants";
 import { connect } from "react-redux";
 class FormContainer extends Component {
@@ -18,11 +19,11 @@ class FormContainer extends Component {
     }
   }
   render() {
-    const { user, formData } = this.props;
+    const { user, formData, updateFormDetails } = this.props;
     return (
       <>
         <NavBarMain tabs={["questions", "responses", "settings"]} />
-        <FormMain formData={formData} />
+        <FormMain formData={formData} updateFormDetails={updateFormDetails} />
       </>
     );
   }
@@ -39,5 +40,8 @@ const mapStateToProps = (state, ownProps) => ({
 const mapDispatchToProps = (dispatch) => ({
   getFormDetails: (_id, creator_id) =>
     dispatch({ type: START_GET_FORM_DETAILS, _id, creator_id }),
+
+  updateFormDetails: (data) =>
+    dispatch({ type: START_UPDATE_FORM_DETAILS, data }),
 });
 export default connect(mapStateToProps, mapDispatchToProps)(FormContainer);

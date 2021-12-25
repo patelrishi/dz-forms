@@ -8,3 +8,8 @@ export function getFormDetails(_id, creator_id) {
   const data = api.get(`/forms`, { _id, creator_id });
   return data;
 }
+
+export function updateFormDetails(data) {
+  const response = api.post(`/forms/update`, data);
+  return response;
+}

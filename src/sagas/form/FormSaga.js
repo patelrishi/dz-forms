@@ -1,12 +1,19 @@
 import { call, put, takeEvery } from "redux-saga/effects";
-import { createForm, getFormDetails } from "../../actions/FormApis";
+import {
+  createForm,
+  getFormDetails,
+  updateFormDetails,
+} from "../../actions/FormApis";
 import {
   ERROR_CREATE_FORM,
   ERROR_GET_FORM_DETAILS,
+  ERROR_UPDATE_FORM_DETAILS,
   START_CREATE_FORM,
   START_GET_FORM_DETAILS,
+  START_UPDATE_FORM_DETAILS,
   SUCCESS_CREATE_FORM,
   SUCCESS_GET_FORM_DETAILS,
+  SUCCESS_UPDATE_FORM_DETAILS,
 } from "../../constants/FormConstants";
 
 function* formCreateWorker({ _id }) {
@@ -59,4 +66,30 @@ function* formDetailsWorker({ _id, creator_id }) {
 }
 export function* formDetailsWatcher() {
   yield takeEvery(START_GET_FORM_DETAILS, formDetailsWorker);
+}
+
+function* formUpdateWorker({ _id, data }) {
+  const response = yield call(updateFormDetails, data);
+
+  try {
+    if (response) {
+      yield put({
+        type: SUCCESS_UPDATE_FORM_DETAILS,
+        data: response,
+      });
+    } else {
+      yield put({
+        type: ERROR_UPDATE_FORM_DETAILS,
+        data: response,
+      });
+    }
+  } catch (error) {
+    yield put({
+      type: ERROR_UPDATE_FORM_DETAILS,
+      data: response,
+    });
+  }
+}
+export function* formUpdateWatcher() {
+  yield takeEvery(START_UPDATE_FORM_DETAILS, formUpdateWorker);
 }

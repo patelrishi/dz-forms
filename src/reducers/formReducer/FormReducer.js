@@ -5,10 +5,14 @@ import {
   START_GET_FORM_DETAILS,
   SUCCESS_GET_FORM_DETAILS,
   ERROR_GET_FORM_DETAILS,
+  START_UPDATE_FORM_DETAILS,
+  SUCCESS_UPDATE_FORM_DETAILS,
+  ERROR_UPDATE_FORM_DETAILS,
 } from "../../constants/FormConstants";
 
 const initState = {
   isFormLoading: false,
+  isFormUpdating: false,
   formData: {},
   error: "",
 };
@@ -50,6 +54,25 @@ export const form = (previousState, action) => {
       return {
         ...previousState,
         isFormLoading: false,
+        error: action.data,
+      };
+
+    case START_UPDATE_FORM_DETAILS:
+      return {
+        ...previousState,
+        isFormUpdating: true,
+        formData: {},
+      };
+    case SUCCESS_UPDATE_FORM_DETAILS:
+      return {
+        ...previousState,
+        isFormUpdating: false,
+        formData: action.data,
+      };
+    case ERROR_UPDATE_FORM_DETAILS:
+      return {
+        ...previousState,
+        isFormUpdating: false,
         error: action.data,
       };
     default:
