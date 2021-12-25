@@ -14,9 +14,3 @@ export function getUserDetails(_id) {
   const data = api.get(`/users`, { _id });
   return data;
 }
-
-export function addToFavourite(value) {
-  console.log(value, "api");
-  const data = api.post(`/users/watchlist`, value);
-  return data;
-}

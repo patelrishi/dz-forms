@@ -14,7 +14,6 @@ const initState = {
   userDataLoading: false,
   userData: {},
   error: "",
-  isFavoutiteListUpdating: false,
 };
 export const user = (previousState, action) => {
   switch (action.type) {

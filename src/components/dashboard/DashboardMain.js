@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Button,
   CircularProgress,
@@ -61,8 +61,19 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const DashboardMain = () => {
+const DashboardMain = ({ createForm, user, formData, isFormLoading }) => {
   const classes = useStyles();
+
+  // console.log(formData.form._id);
+  useEffect(() => {
+    if (formData?.form?._id !== undefined && isFormLoading === false) {
+      window.location.href = `/form/edit/${formData?.form?._id}`;
+    }
+  }, [isFormLoading, formData]);
+
+  const handleCreateForm = () => {
+    createForm(user._id);
+  };
   return (
     <Container className={classes.dashboardRoot}>
       <div className={classes.dashboardTop}></div>
@@ -77,7 +88,10 @@ const DashboardMain = () => {
           <Button
             color="primary"
             variant="contained"
-            startIcon={<CircularProgress size={12} color="#FFFFFF" />}
+            startIcon={
+              isFormLoading && <CircularProgress size={12} color="#FFFFFF" />
+            }
+            onClick={handleCreateForm}
           >
             Create Form
           </Button>
