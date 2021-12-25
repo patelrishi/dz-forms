@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { lazy } from "react";
 import { Suspense } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
@@ -7,8 +7,8 @@ import Loading from "../containers/Loading";
 // components
 const DashboardContainer = lazy(() => import("../containers/DashBoard"));
 const NotFound = lazy(() => import("../containers/NotFound"));
-// const LandingPage = lazy(() => import("../containers/LandingPage"));
 const AuthContainer = lazy(() => import("../containers/AuthContainer"));
+const FormContainer = lazy(() => import("../containers/FormContainer"));
 
 let PrivateRouteArr = [
   {
@@ -16,10 +16,24 @@ let PrivateRouteArr = [
     path: "/dashboard",
     key: "dashboard",
   },
+  {
+    component: <FormContainer />,
+    path: "/form/:formId",
+    key: "formView",
+  },
+  {
+    component: <FormContainer />,
+    path: "/form/edit/:formId",
+    key: "formEdit",
+  },
 ];
+
 const Routers = () => {
   const token = localStorage.getItem("token");
 
+  if (window.location.href.split("/").at(-1) === "") {
+    window.location.href = "/login";
+  }
   return (
     <div>
       <Suspense fallback={<Loading />}>
@@ -37,7 +51,7 @@ const Routers = () => {
               ))
             ) : (
               <Route
-                path="*"
+                path=""
                 exact
                 element={<Navigate to={`/login`} />}
                 status={404}

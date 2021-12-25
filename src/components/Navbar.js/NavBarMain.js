@@ -3,11 +3,12 @@ import Box from "@mui/material/Box";
 import { makeStyles } from "@material-ui/core";
 import { ReactComponent as Logo } from "../../assets/icons/SmartHealthLogo.svg";
 import NavMenu from "./NavMenu";
-import { Link } from "@mui/material";
+import { Link, Tab, Tabs } from "@mui/material";
 
 const useStyles = makeStyles((theme) => ({
   root: {
     // maxWidth: 1300,
+    top: 0,
     height: "fit-content",
     width: "100%",
     position: "fixed",
@@ -45,6 +46,11 @@ const useStyles = makeStyles((theme) => ({
 
 const NavBarMain = ({ tabs }) => {
   const classes = useStyles();
+  const [value, setValue] = React.useState(0);
+
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
 
   return (
     <div className={classes.root}>
@@ -52,7 +58,18 @@ const NavBarMain = ({ tabs }) => {
         <Link href="/" underline="none">
           <Logo />
         </Link>
-
+        <Tabs
+          value={value}
+          onChange={handleChange}
+          centered
+          className={classes.navMenu}
+          textColor="secondary"
+          indicatorColor="secondary"
+        >
+          {tabs?.map((elem, i) => (
+            <Tab label={elem} key={i} />
+          ))}
+        </Tabs>
         <NavMenu />
       </Box>
     </div>

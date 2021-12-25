@@ -1,12 +1,12 @@
 import React from "react";
-import { H2 } from "../components/common/typography/Header";
+import DashboardMain from "../components/dashboard/DashboardMain";
 import NavBarMain from "../components/Navbar.js/NavBarMain";
 
 const DashBoard = () => {
   return (
     <div>
       <NavBarMain />
-      <H2 medium></H2>
+      <DashboardMain />
     </div>
   );
 };

@@ -6,7 +6,6 @@ import { Body1 } from "../common/typography/Typography";
 import { connect } from "react-redux";
 import { START_USER_LOGIN } from "../../constants/UserConstants";
 import { Link } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   loginRoot: {
@@ -46,7 +45,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 const LoginForm = ({ login, userDataLoading, user }) => {
   const classes = useStyles();
-  const navigate = useNavigate();
   const [email, setemail] = useState("");
   const [password, setpassword] = useState("");
 

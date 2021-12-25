@@ -4,10 +4,7 @@ import CommonTextField from "../common/textfields/CommonTextField";
 import { H5, H6 } from "../common/typography/Header";
 import { Body1 } from "../common/typography/Typography";
 import { Link } from "react-router-dom";
-import {
-  START_USER_LOGIN,
-  START_USER_REGISTER,
-} from "../../constants/UserConstants";
+import { START_USER_REGISTER } from "../../constants/UserConstants";
 import { connect } from "react-redux";
 
 const useStyles = makeStyles((theme) => ({
