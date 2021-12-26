@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { makeStyles } from "@material-ui/core";
+import { makeStyles, Select } from "@material-ui/core";
 import CommonTextField from "../common/textfields/CommonTextField";
 import {
   Divider,
   FormControlLabel,
   IconButton,
   MenuItem,
-  Select,
   Switch,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";

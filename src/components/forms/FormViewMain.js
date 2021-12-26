@@ -6,13 +6,14 @@ import {
   Link,
   makeStyles,
   MenuItem,
+  Select,
 } from "@material-ui/core";
 import { H2, H3, H4, H5, H6 } from "../common/typography/Header";
 import CommonTextField from "../common/textfields/CommonTextField";
 import { Body1, Subtitle1 } from "../common/typography/Typography";
 import { LightActiveCheckBox } from "../common/checkBox/LightActiveCheckBox";
 import { RadioButton } from "../common/radioButton/RadioButton";
-import { Select } from "@mui/material";
+import { InputLabel } from "@mui/material";
 import { useParams } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
@@ -217,20 +218,25 @@ const FormViewMain = ({
                     />
                   )}
                   {que?.type === "dropDown" && (
-                    <Select
-                      labelId="demo-simple-select-label"
-                      id="demo-simple-select"
-                      value={que.ans}
-                      onChange={(e) => handleChange(e.target.value, index)}
-                      autoWidth
-                      className={classes.formDropDown}
-                    >
-                      {que?.options.map((elem) => (
-                        <MenuItem value={elem.optionText}>
-                          {elem.optionText}
-                        </MenuItem>
-                      ))}
-                    </Select>
+                    <>
+                      <InputLabel id="demo-simple-select-label">
+                        Select
+                      </InputLabel>
+                      <Select
+                        labelId="demo-simple-select-label"
+                        id="demo-simple-select"
+                        value={que.ans}
+                        onChange={(e) => handleChange(e.target.value, index)}
+                        autoWidth
+                        className={classes.formDropDown}
+                      >
+                        {que?.options.map((elem) => (
+                          <MenuItem value={elem.optionText}>
+                            {elem.optionText}
+                          </MenuItem>
+                        ))}
+                      </Select>
+                    </>
                     // <Dropdown
                     //   value={que.ans}
                     //   list={que?.options}
