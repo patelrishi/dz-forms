@@ -1,5 +1,10 @@
 # dz-forms
+
+frontend:
 https://staging-dz-forms-service.herokuapp.com/
+
+backend:
+ https://main-api-dz-forms-staging.herokuapp.com
 
 ## Features
 
