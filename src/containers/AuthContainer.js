@@ -10,9 +10,9 @@ const useStyles = makeStyles((theme) => ({
     // overflow: "hidden",
     "&>div": {
       paddingTop: 50,
-      // background: `url(${process.env.PUBLIC_URL}/images/auth-bg.png)`,
+      background: `url("https://www.google.com/intl/en-GB/forms/about/images/forms/banner-1600.jpg")`,
       backgroundRepeat: "no-repeat",
-      backgroundPosition: "bottom",
+      backgroundPosition: "center",
       backgroundSize: "cover",
       backgroundAttachment: "fixed",
       height: "100vh",

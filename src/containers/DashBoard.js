@@ -11,7 +11,6 @@ class DashBoard extends Component {
   componentDidMount() {
     const { getUserForms, user } = this.props;
 
-    console.log(user);
     if (user._id !== undefined) {
       const _id = user._id;
       getUserForms(_id);
@@ -19,7 +18,14 @@ class DashBoard extends Component {
   }
 
   render() {
-    const { createForm, user, isFormLoading, formData, userForms } = this.props;
+    const {
+      createForm,
+      user,
+      isFormLoading,
+      formData,
+      userForms,
+      getUserForms,
+    } = this.props;
 
     return (
       <>
@@ -30,6 +36,7 @@ class DashBoard extends Component {
           formData={formData}
           isFormLoading={isFormLoading}
           userForms={userForms}
+          getUserForms={getUserForms}
         />
       </>
     );

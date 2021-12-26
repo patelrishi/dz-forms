@@ -14,7 +14,7 @@ const useStyles = makeStyles((theme) => ({
     margin: "auto",
     height: "fit-content",
     borderRadius: 10,
-    background: "#f5f5f5",
+    background: "#ffffff",
     marginTop: 80,
     boxShadow:
       "0 4px 20px 0px rgb(0 0 0 / 14%), 0 7px 12px -5px rgb(156 39 176 / 46%)",

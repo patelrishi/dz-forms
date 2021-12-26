@@ -4,8 +4,8 @@ import {
   CircularProgress,
   Container,
   Grid,
-  Link,
   makeStyles,
+  Link,
 } from "@material-ui/core";
 import { H5, H6 } from "../common/typography/Header";
 
@@ -52,11 +52,12 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   formCardRoot: {
-    height: 250,
+    height: 265,
     overflow: "auto",
   },
   formsCard: {
     "&>a": {
+      textDecoration: "none",
       "&>div": {
         // background: `url(${process.env.PUBLIC_URL}/images/dashboard-bg.png)`,
         height: 200,
@@ -85,11 +86,18 @@ const DashboardMain = ({
   formData,
   isFormLoading,
   userForms,
+  getUserForms,
 }) => {
   const classes = useStyles();
-  console.log(userForms);
 
   const [formList, setformList] = useState([]);
+
+  useEffect(() => {
+    if (user._id !== undefined) {
+      const _id = user._id;
+      getUserForms(_id);
+    }
+  }, [user, createForm]);
 
   useEffect(() => {
     if (userForms !== undefined && userForms.length > 0) {
@@ -129,35 +137,37 @@ const DashboardMain = ({
           </Button>
         </div>
       </div>
-      <div style={{ padding: 16, marginTop: 20 }}>
-        <H5 bold>Recent Forms</H5>
-        <Grid container spacing={2} className={classes.formCardRoot}>
-          {formList !== undefined &&
-            formList?.map((elem, i) => (
-              <Grid
-                item
-                xs={12}
-                sm={6}
-                md={4}
-                lg={3}
-                className={classes.formsCard}
-                key={i}
-              >
-                <Link href={`/form/edit/${elem?._id}`}>
-                  <div>
+      {formList !== undefined && formList.length > 0 && (
+        <div style={{ padding: 16, marginTop: 20 }}>
+          <H5 bold>Recent Forms</H5>
+          <Grid container spacing={2} className={classes.formCardRoot}>
+            {formList !== undefined &&
+              formList?.map((elem, i) => (
+                <Grid
+                  item
+                  xs={12}
+                  sm={6}
+                  md={4}
+                  lg={3}
+                  className={classes.formsCard}
+                  key={i}
+                >
+                  <Link href={`/form/edit/${elem?._id}`} underline="none">
                     <div>
-                      <img
-                        src={`${process.env.PUBLIC_URL}/images/dashboard-bg.png`}
-                        alt=""
-                      />
-                      <H6>{elem?.name}</H6>
+                      <div>
+                        <img
+                          src={`${process.env.PUBLIC_URL}/images/dashboard-bg.png`}
+                          alt=""
+                        />
+                        <H6>{elem?.name}</H6>
+                      </div>
                     </div>
-                  </div>
-                </Link>
-              </Grid>
-            ))}
-        </Grid>
-      </div>
+                  </Link>
+                </Grid>
+              ))}
+          </Grid>
+        </div>
+      )}
     </Container>
   );
 };

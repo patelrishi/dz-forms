@@ -4,7 +4,7 @@ import { makeStyles } from "@material-ui/core";
 import { ReactComponent as Logo } from "../../assets/icons/SmartHealthLogo.svg";
 import NavMenu from "./NavMenu";
 import { Link, Tab, Tabs } from "@mui/material";
-
+import AssignmentIcon from "@mui/icons-material/Assignment";
 const useStyles = makeStyles((theme) => ({
   root: {
     // maxWidth: 1300,
@@ -23,6 +23,7 @@ const useStyles = makeStyles((theme) => ({
       "&>a>svg": {
         cursor: "pointer",
         padding: 7,
+        color: "#9c27b0",
       },
     },
   },
@@ -55,8 +56,8 @@ const NavBarMain = ({ tabs }) => {
   return (
     <div className={classes.root}>
       <Box>
-        <Link href="/" underline="none">
-          <Logo />
+        <Link href="/dashboard" underline="none">
+          <AssignmentIcon color="primary" />
         </Link>
         <Tabs
           value={value}

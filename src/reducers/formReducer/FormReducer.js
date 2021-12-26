@@ -46,19 +46,19 @@ export const form = (previousState, action) => {
     case START_GET_FORM_DETAILS:
       return {
         ...previousState,
-        isFormLoading: true,
+        // isFormLoading: true,
         formData: {},
       };
     case SUCCESS_GET_FORM_DETAILS:
       return {
         ...previousState,
-        isFormLoading: false,
+        // isFormLoading: false,
         formData: action.data,
       };
     case ERROR_GET_FORM_DETAILS:
       return {
         ...previousState,
-        isFormLoading: false,
+        // isFormLoading: false,
         error: action.data,
       };
 
