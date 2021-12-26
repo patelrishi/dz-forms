@@ -8,6 +8,9 @@ import {
   START_UPDATE_FORM_DETAILS,
   SUCCESS_UPDATE_FORM_DETAILS,
   ERROR_UPDATE_FORM_DETAILS,
+  START_GET_USER_FORMS,
+  SUCCESS_GET_USER_FORMS,
+  ERROR_GET_USER_FORMS,
 } from "../../constants/FormConstants";
 
 const initState = {
@@ -15,6 +18,8 @@ const initState = {
   isFormUpdating: false,
   formData: {},
   error: "",
+  userForms: [],
+  isUserFormsListLoading: false,
 };
 
 export const form = (previousState, action) => {
@@ -73,6 +78,25 @@ export const form = (previousState, action) => {
       return {
         ...previousState,
         isFormUpdating: false,
+        error: action.data,
+      };
+
+    case START_GET_USER_FORMS:
+      return {
+        ...previousState,
+        isUserFormsListLoading: true,
+        userForms: {},
+      };
+    case SUCCESS_GET_USER_FORMS:
+      return {
+        ...previousState,
+        isUserFormsListLoading: false,
+        userForms: action.data,
+      };
+    case ERROR_GET_USER_FORMS:
+      return {
+        ...previousState,
+        isUserFormsListLoading: false,
         error: action.data,
       };
     default:

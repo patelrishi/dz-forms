@@ -39,7 +39,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const FormMain = ({ formData, updateFormDetails }) => {
+const FormMain = ({ formData, updateFormDetails, user }) => {
   const classes = useStyles();
 
   const [formDetails, setFormDetails] = useState("");
@@ -204,6 +204,7 @@ const FormMain = ({ formData, updateFormDetails }) => {
             variant="standard"
             label="email"
             color="primary"
+            value={user?.email}
             required
             disabled
           />

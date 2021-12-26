@@ -23,7 +23,11 @@ class FormContainer extends Component {
     return (
       <>
         <NavBarMain tabs={["questions", "responses", "settings"]} />
-        <FormMain formData={formData} updateFormDetails={updateFormDetails} />
+        <FormMain
+          formData={formData}
+          updateFormDetails={updateFormDetails}
+          user={user}
+        />
       </>
     );
   }

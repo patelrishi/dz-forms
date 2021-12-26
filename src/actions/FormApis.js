@@ -13,3 +13,8 @@ export function updateFormDetails(data) {
   const response = api.post(`/forms/update`, data);
   return response;
 }
+
+export function getUserFormList(_id) {
+  const response = api.get(`/forms/find`, { _id });
+  return response;
+}

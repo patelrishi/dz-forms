@@ -3,6 +3,7 @@ import {
   formCreateWatcher,
   formDetailsWatcher,
   formUpdateWatcher,
+  getUserFormListWatcher,
 } from "./form/FormSaga";
 import {
   userDetailsWatcher,
@@ -18,5 +19,6 @@ export default function* rootSaga() {
     formCreateWatcher(),
     formDetailsWatcher(),
     formUpdateWatcher(),
+    getUserFormListWatcher(),
   ]);
 }

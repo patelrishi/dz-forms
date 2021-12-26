@@ -1,9 +1,10 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Button,
   CircularProgress,
   Container,
   Grid,
+  Link,
   makeStyles,
 } from "@material-ui/core";
 import { H5, H6 } from "../common/typography/Header";
@@ -50,20 +51,51 @@ const useStyles = makeStyles((theme) => ({
       },
     },
   },
+  formCardRoot: {
+    height: 250,
+    overflow: "auto",
+  },
   formsCard: {
-    "&>div": {
-      background: `url(${process.env.PUBLIC_URL}/images/dashboard-bg.png)`,
-      height: 200,
-      cursor: "pointer",
-      borderRadius: 16,
-      boxShadow: "0px 2px 4px rgb(16 7 33 / 12%)",
+    "&>a": {
+      "&>div": {
+        // background: `url(${process.env.PUBLIC_URL}/images/dashboard-bg.png)`,
+        height: 200,
+        cursor: "pointer",
+        borderRadius: 16,
+        boxShadow: "0px 2px 4px rgb(16 7 33 / 12%)",
+        "&>div": {
+          padding: 8,
+          "&>img": {
+            width: "100%",
+            height: "100%",
+            borderRadius: "12px 12px 0 0",
+          },
+          "&>h6": {
+            textAlign: "center",
+          },
+        },
+      },
     },
   },
 }));
 
-const DashboardMain = ({ createForm, user, formData, isFormLoading }) => {
+const DashboardMain = ({
+  createForm,
+  user,
+  formData,
+  isFormLoading,
+  userForms,
+}) => {
   const classes = useStyles();
+  console.log(userForms);
 
+  const [formList, setformList] = useState([]);
+
+  useEffect(() => {
+    if (userForms !== undefined && userForms.length > 0) {
+      setformList(userForms);
+    }
+  }, [userForms]);
 
   useEffect(() => {
     if (formData?.form?._id !== undefined && isFormLoading === false) {
@@ -97,21 +129,33 @@ const DashboardMain = ({ createForm, user, formData, isFormLoading }) => {
           </Button>
         </div>
       </div>
-      <div style={{ padding: 16, marginTop: 60 }}>
+      <div style={{ padding: 16, marginTop: 20 }}>
         <H5 bold>Recent Forms</H5>
-        <Grid container spacing={2}>
-          {new Array(4).fill("").map((elem) => (
-            <Grid
-              item
-              xs={12}
-              sm={6}
-              md={4}
-              lg={3}
-              className={classes.formsCard}
-            >
-              <div></div>
-            </Grid>
-          ))}
+        <Grid container spacing={2} className={classes.formCardRoot}>
+          {formList !== undefined &&
+            formList?.map((elem, i) => (
+              <Grid
+                item
+                xs={12}
+                sm={6}
+                md={4}
+                lg={3}
+                className={classes.formsCard}
+                key={i}
+              >
+                <Link href={`/form/edit/${elem?._id}`}>
+                  <div>
+                    <div>
+                      <img
+                        src={`${process.env.PUBLIC_URL}/images/dashboard-bg.png`}
+                        alt=""
+                      />
+                      <H6>{elem?.name}</H6>
+                    </div>
+                  </div>
+                </Link>
+              </Grid>
+            ))}
         </Grid>
       </div>
     </Container>
