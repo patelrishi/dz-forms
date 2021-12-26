@@ -1,7 +1,6 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
 import { makeStyles } from "@material-ui/core";
-import { ReactComponent as Logo } from "../../assets/icons/SmartHealthLogo.svg";
 import NavMenu from "./NavMenu";
 import { Link, Tab, Tabs } from "@mui/material";
 import AssignmentIcon from "@mui/icons-material/Assignment";
