@@ -18,3 +18,8 @@ export function getUserFormList(_id) {
   const response = api.get(`/forms/find`, { _id });
   return response;
 }
+
+export function submitResponse(data) {
+  const response = api.post(`/forms/response`, data);
+  return response;
+}

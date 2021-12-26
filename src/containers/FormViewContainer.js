@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import NavBarMain from "../components/Navbar.js/NavBarMain";
 import {
   START_GET_FORM_DETAILS,
+  START_SUBMIT_FORM,
   START_UPDATE_FORM_DETAILS,
 } from "../constants/FormConstants";
 import { connect } from "react-redux";
@@ -17,14 +18,17 @@ class FormViewContainer extends Component {
     }
   }
   render() {
-    const { user, formData, updateFormDetails } = this.props;
+    const { user, formData, updateFormDetails, submitForm, submitResponse } =
+      this.props;
     return (
       <>
         <NavBarMain />
         <FormViewMain
           formData={formData}
           updateFormDetails={updateFormDetails}
+          submitForm={submitForm}
           user={user}
+          submitResponse={submitResponse}
         />
       </>
     );
@@ -36,6 +40,7 @@ const mapStateToProps = (state, ownProps) => ({
   userDataLoading: state.user.userDataLoading,
   isFormLoading: state.form.isFormLoading,
   formData: state.form.formData.form,
+  submitResponse: state.form.submitResponse,
   error: state.user.error,
 });
 
@@ -45,5 +50,7 @@ const mapDispatchToProps = (dispatch) => ({
 
   updateFormDetails: (data) =>
     dispatch({ type: START_UPDATE_FORM_DETAILS, data }),
+
+  submitForm: (data) => dispatch({ type: START_SUBMIT_FORM, data }),
 });
 export default connect(mapStateToProps, mapDispatchToProps)(FormViewContainer);

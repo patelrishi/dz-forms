@@ -3,20 +3,24 @@ import {
   createForm,
   getFormDetails,
   getUserFormList,
+  submitResponse,
   updateFormDetails,
 } from "../../actions/FormApis";
 import {
   ERROR_CREATE_FORM,
   ERROR_GET_FORM_DETAILS,
   ERROR_GET_USER_FORMS,
+  ERROR_SUBMIT_FORM,
   ERROR_UPDATE_FORM_DETAILS,
   START_CREATE_FORM,
   START_GET_FORM_DETAILS,
   START_GET_USER_FORMS,
+  START_SUBMIT_FORM,
   START_UPDATE_FORM_DETAILS,
   SUCCESS_CREATE_FORM,
   SUCCESS_GET_FORM_DETAILS,
   SUCCESS_GET_USER_FORMS,
+  SUCCESS_SUBMIT_FORM,
   SUCCESS_UPDATE_FORM_DETAILS,
 } from "../../constants/FormConstants";
 
@@ -122,4 +126,30 @@ function* getUserFormListWorker({ _id }) {
 
 export function* getUserFormListWatcher() {
   yield takeEvery(START_GET_USER_FORMS, getUserFormListWorker);
+}
+
+function* formSubmitWorker({ data }) {
+  const response = yield call(submitResponse, data);
+  try {
+    if (response) {
+      yield put({
+        type: SUCCESS_SUBMIT_FORM,
+        response: "success",
+      });
+    } else {
+      yield put({
+        type: ERROR_SUBMIT_FORM,
+        data: response,
+      });
+    }
+  } catch (error) {
+    yield put({
+      type: ERROR_SUBMIT_FORM,
+      data: response,
+    });
+  }
+}
+
+export function* formSubmitWatcher() {
+  yield takeEvery(START_SUBMIT_FORM, formSubmitWorker);
 }

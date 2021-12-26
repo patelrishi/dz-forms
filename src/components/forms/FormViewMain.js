@@ -3,15 +3,17 @@ import {
   Button,
   Container,
   Divider,
+  Link,
   makeStyles,
   MenuItem,
 } from "@material-ui/core";
-import { H2, H5, H6 } from "../common/typography/Header";
+import { H2, H3, H4, H5, H6 } from "../common/typography/Header";
 import CommonTextField from "../common/textfields/CommonTextField";
 import { Body1, Subtitle1 } from "../common/typography/Typography";
 import { LightActiveCheckBox } from "../common/checkBox/LightActiveCheckBox";
 import { RadioButton } from "../common/radioButton/RadioButton";
 import { Select } from "@mui/material";
+import { useParams } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   formRoot: {
@@ -29,6 +31,7 @@ const useStyles = makeStyles((theme) => ({
     height: "fit-content",
     width: "100%",
     "&>div": {
+      minHeight: 150,
       borderRadius: 12,
       borderTop: "10px solid #9c27b0",
       background: "#FFFFFF",
@@ -40,6 +43,9 @@ const useStyles = makeStyles((theme) => ({
       },
       "&>h5": {
         color: "#808080",
+      },
+      "&>h4": {
+        margin: "20px 0 10px 0",
       },
     },
   },
@@ -75,8 +81,15 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const FormViewMain = ({ formData, updateFormDetails, user }) => {
+const FormViewMain = ({
+  formData,
+  updateFormDetails,
+  user,
+  submitForm,
+  submitResponse,
+}) => {
   const classes = useStyles();
+  const { formId } = useParams();
 
   const [formDetails, setFormDetails] = useState("");
 
@@ -119,13 +132,14 @@ const FormViewMain = ({ formData, updateFormDetails, user }) => {
   };
 
   const handleSubmit = () => {
-    const response = {
+    const data = {
       formId: formDetails._id,
       email,
       response: formCompArray,
     };
 
-    console.log(response);
+    console.log(data);
+    submitForm(data);
   };
 
   const handleChange = (value, index, type) => {
@@ -147,104 +161,118 @@ const FormViewMain = ({ formData, updateFormDetails, user }) => {
 
   return (
     <Container className={classes.formRoot} maxWidth="md">
-      <div className={classes.formTitleSection}>
-        <div>
-          <>
-            <H2 bold>{formDetails?.name}</H2>
-
-            <H5>{formDetails?.description}</H5>
-          </>
-
-          <Divider />
-          <Subtitle1>Enter Valid Email</Subtitle1>
-          <CommonTextField
-            variant="standard"
-            label="email"
-            color="primary"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
+      {submitResponse === "success" ? (
+        <div className={classes.formTitleSection}>
+          <div>
+            <H3 bold>{formDetails.name}</H3>
+            <H4>Your response has been recorded.</H4>
+            <Link href={`/form/${formId} `} underline="none">
+              Submit another Response?
+            </Link>
+          </div>
         </div>
-      </div>
-
-      {formCompArray &&
-        formCompArray.map((que, index) => (
-          <div className={classes.questionSection}>
+      ) : (
+        <>
+          <div className={classes.formTitleSection}>
             <div>
-              <H6>{que?.questionText}</H6>
-              {que?.type === "longQue" && (
-                <CommonTextField
-                  variant="standard"
-                  color="primary"
-                  value={que.ans}
-                  multiline
-                  onChange={(e) => handleChange(e.target.value, index)}
-                />
-              )}
-              {que?.type === "shortQue" && (
-                <CommonTextField
-                  variant="standard"
-                  color="primary"
-                  value={que.ans}
-                  onChange={(e) => handleChange(e.target.value, index)}
-                />
-              )}
-              {que?.type === "dropDown" && (
-                <Select
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-                  value={que.ans}
-                  onChange={(e) => handleChange(e.target.value, index)}
-                  autoWidth
-                  className={classes.formDropDown}
-                >
-                  {que?.options.map((elem) => (
-                    <MenuItem value={elem.optionText}>
-                      {elem.optionText}
-                    </MenuItem>
-                  ))}
-                </Select>
-                // <Dropdown
-                //   value={que.ans}
-                //   list={que?.options}
-                //   onChange={(e) => handleChange(e.target.value, index)}
-                // />
-              )}
-              {que?.type === "checkBox" &&
-                que?.options.map((elem) => (
-                  <LightActiveCheckBox
-                    checked={que.ans.includes(elem.optionText)}
-                    onChecked={(e) =>
-                      handleChange(elem.optionText, index, que?.type)
-                    }
-                  >
-                    <Body1>{elem.optionText}</Body1>
-                  </LightActiveCheckBox>
-                ))}
-              {que?.type === "multipleChoices" && (
-                <div className={classes.radioGroup}>
-                  {que?.options.map((elem) => (
-                    <RadioButton
-                      checked={que.ans.includes(elem.optionText)}
-                      onChange={(e) => handleChange(elem.optionText, index)}
-                    >
-                      <Body1>{elem.optionText}</Body1>
-                    </RadioButton>
-                  ))}
-                </div>
-              )}
+              <>
+                <H2 bold>{formDetails?.name}</H2>
+
+                <H5>{formDetails?.description}</H5>
+              </>
+
+              <Divider />
+              <Subtitle1>Enter Valid Email</Subtitle1>
+              <CommonTextField
+                variant="standard"
+                label="email"
+                color="primary"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+              />
             </div>
           </div>
-        ))}
-      <div className={classes.buttonGroup}>
-        <Button variant="contained" color="primary" onClick={handleSubmit}>
-          Submit
-        </Button>
-        <Button varian="outlined" color="primary" onClick={handleCealrALL}>
-          clear all
-        </Button>
-      </div>
+
+          {formCompArray &&
+            formCompArray.map((que, index) => (
+              <div className={classes.questionSection}>
+                <div>
+                  <H6>{que?.questionText}</H6>
+                  {que?.type === "longQue" && (
+                    <CommonTextField
+                      variant="standard"
+                      color="primary"
+                      value={que.ans}
+                      multiline
+                      onChange={(e) => handleChange(e.target.value, index)}
+                    />
+                  )}
+                  {que?.type === "shortQue" && (
+                    <CommonTextField
+                      variant="standard"
+                      color="primary"
+                      value={que.ans}
+                      onChange={(e) => handleChange(e.target.value, index)}
+                    />
+                  )}
+                  {que?.type === "dropDown" && (
+                    <Select
+                      labelId="demo-simple-select-label"
+                      id="demo-simple-select"
+                      value={que.ans}
+                      onChange={(e) => handleChange(e.target.value, index)}
+                      autoWidth
+                      className={classes.formDropDown}
+                    >
+                      {que?.options.map((elem) => (
+                        <MenuItem value={elem.optionText}>
+                          {elem.optionText}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                    // <Dropdown
+                    //   value={que.ans}
+                    //   list={que?.options}
+                    //   onChange={(e) => handleChange(e.target.value, index)}
+                    // />
+                  )}
+                  {que?.type === "checkBox" &&
+                    que?.options.map((elem) => (
+                      <LightActiveCheckBox
+                        checked={que.ans.includes(elem.optionText)}
+                        onChecked={(e) =>
+                          handleChange(elem.optionText, index, que?.type)
+                        }
+                      >
+                        <Body1>{elem.optionText}</Body1>
+                      </LightActiveCheckBox>
+                    ))}
+                  {que?.type === "multipleChoices" && (
+                    <div className={classes.radioGroup}>
+                      {que?.options.map((elem) => (
+                        <RadioButton
+                          checked={que.ans.includes(elem.optionText)}
+                          onChange={(e) => handleChange(elem.optionText, index)}
+                        >
+                          <Body1>{elem.optionText}</Body1>
+                        </RadioButton>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              </div>
+            ))}
+          <div className={classes.buttonGroup}>
+            <Button variant="contained" color="primary" onClick={handleSubmit}>
+              Submit
+            </Button>
+            <Button varian="outlined" color="primary" onClick={handleCealrALL}>
+              clear all
+            </Button>
+          </div>
+        </>
+      )}
     </Container>
   );
 };

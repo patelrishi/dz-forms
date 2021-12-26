@@ -11,6 +11,9 @@ import {
   START_GET_USER_FORMS,
   SUCCESS_GET_USER_FORMS,
   ERROR_GET_USER_FORMS,
+  START_SUBMIT_FORM,
+  SUCCESS_SUBMIT_FORM,
+  ERROR_SUBMIT_FORM,
 } from "../../constants/FormConstants";
 
 const initState = {
@@ -20,6 +23,7 @@ const initState = {
   error: "",
   userForms: [],
   isUserFormsListLoading: false,
+  submitResponse: "",
 };
 
 export const form = (previousState, action) => {
@@ -99,6 +103,23 @@ export const form = (previousState, action) => {
         isUserFormsListLoading: false,
         error: action.data,
       };
+
+    case START_SUBMIT_FORM:
+      return {
+        ...previousState,
+        submitResponse: "",
+      };
+    case SUCCESS_SUBMIT_FORM:
+      return {
+        ...previousState,
+        submitResponse: action.response,
+      };
+    case ERROR_SUBMIT_FORM:
+      return {
+        ...previousState,
+        error: action.response,
+      };
+
     default:
       return previousState || initState;
   }
