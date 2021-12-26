@@ -43,7 +43,7 @@ let PrivateRouteArr = [
 const Routers = () => {
   const token = localStorage.getItem("token");
 
-  if (window.location.href.split("/").at(-1) === "") {
+  if (window.location.href.split("/").at(3) === "") {
     window.location.href = "/login";
   }
   return (

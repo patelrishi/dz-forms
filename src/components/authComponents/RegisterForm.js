@@ -22,6 +22,7 @@ const useStyles = makeStyles((theme) => ({
       padding: "40px 20px",
       "&>h6": {
         color: "#f4534c",
+        textAlign: "center",
       },
       "&>div": {
         margin: "8px 0",
@@ -43,7 +44,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
 }));
-const RegisterForm = ({ userDataLoading, register, user }) => {
+const RegisterForm = ({ userDataLoading, register, user, error }) => {
   const classes = useStyles();
   const [name, setname] = useState("");
   const [email, setemail] = useState("");
@@ -53,6 +54,14 @@ const RegisterForm = ({ userDataLoading, register, user }) => {
   const [nameError, setNameError] = useState("");
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
+
+  const [apiError, setapiError] = useState("");
+
+  useEffect(() => {
+    if (error !== "") {
+      setapiError(error);
+    }
+  }, [error, userDataLoading]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -125,6 +134,7 @@ const RegisterForm = ({ userDataLoading, register, user }) => {
           error={emailError !== ""}
           onChange={(e) => {
             setEmailError("");
+            setapiError("");
             setemail(e.target.value);
           }}
         />
@@ -150,6 +160,7 @@ const RegisterForm = ({ userDataLoading, register, user }) => {
             setconfirmPassword(e.target.value);
           }}
         />
+        <H6>{apiError}</H6>
         <Button
           color="primary"
           onClick={handleSubmit}

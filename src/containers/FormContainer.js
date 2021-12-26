@@ -9,7 +9,7 @@ import { connect } from "react-redux";
 class FormContainer extends Component {
   componentDidMount() {
     const { getFormDetails, user } = this.props;
-    const id = window.location.pathname.split("/").at(-1);
+    const id = window.location.href.split("/").at(5);
 
     if (user._id !== undefined && id !== undefined) {
       const creator_id = user._id;

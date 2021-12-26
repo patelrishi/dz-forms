@@ -22,6 +22,7 @@ const useStyles = makeStyles((theme) => ({
       padding: "40px 20px",
       "&>h6": {
         color: "#f4534c",
+        textAlign: "center",
       },
       "&>div": {
         margin: "8px 0",
@@ -43,14 +44,20 @@ const useStyles = makeStyles((theme) => ({
     },
   },
 }));
-const LoginForm = ({ login, userDataLoading, user }) => {
+const LoginForm = ({ login, userDataLoading, user, error }) => {
   const classes = useStyles();
   const [email, setemail] = useState("");
   const [password, setpassword] = useState("");
 
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
+  const [apiError, setapiError] = useState("");
 
+  useEffect(() => {
+    if (error !== "") {
+      setapiError(error);
+    }
+  }, [error, userDataLoading]);
   // const { enqueueSnackbar } = useSnackbar();
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -91,6 +98,7 @@ const LoginForm = ({ login, userDataLoading, user }) => {
           onChange={(e) => {
             setEmailError("");
             setemail(e.target.value);
+            setapiError("");
           }}
         />
         <H6>{emailError}</H6>
@@ -103,9 +111,11 @@ const LoginForm = ({ login, userDataLoading, user }) => {
           onChange={(e) => {
             setPasswordError("");
             setpassword(e.target.value);
+            setapiError("");
           }}
         />
         <H6>{passwordError}</H6>
+        <H6>{apiError}</H6>
         <Button
           startIcon={
             userDataLoading && <CircularProgress size={15} color="primary" />

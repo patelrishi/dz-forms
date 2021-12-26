@@ -27,8 +27,8 @@ const AuthContainer = () => {
       <NavBarMain />
       <div className={classes.authRoot}>
         <Grid container>
-          {window.location.href.split("/").at(-1) === "login" && <LoginForm />}
-          {window.location.href.split("/").at(-1) === "register" && (
+          {window.location.href.split("/").at(3) === "login" && <LoginForm />}
+          {window.location.href.split("/").at(3) === "register" && (
             <RegisterForm />
           )}
         </Grid>
