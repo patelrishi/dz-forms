@@ -8,6 +8,7 @@ import { DragDropContext } from "react-beautiful-dnd";
 import { Droppable } from "react-beautiful-dnd";
 import { Draggable } from "react-beautiful-dnd";
 import PreviewIcon from "@mui/icons-material/Preview";
+import { useParams } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   formRoot: {
@@ -53,6 +54,8 @@ const useStyles = makeStyles((theme) => ({
 const FormMain = ({ formData, updateFormDetails, user }) => {
   const classes = useStyles();
 
+  const { formId } = useParams();
+
   const [formDetails, setFormDetails] = useState("");
   const [formCompArray, setformCompArray] = useState([]);
 
@@ -80,14 +83,14 @@ const FormMain = ({ formData, updateFormDetails, user }) => {
     tempObj.name = value;
     setFormDetails(tempObj);
     //
-    updateFormDetails(formDetails);
+    // updateFormDetails(formDetails);
   };
   const handleDesChange = (value) => {
     let tempObj = { ...formDetails };
     tempObj.description = value;
     setFormDetails(tempObj);
     //
-    updateFormDetails(formDetails);
+    // updateFormDetails(formDetails);
   };
 
   const handleAddQuestion = () => {
@@ -102,7 +105,7 @@ const FormMain = ({ formData, updateFormDetails, user }) => {
     tempObj.questions = tempArr;
     setFormDetails(tempObj);
     //
-    updateFormDetails(formDetails);
+    // updateFormDetails(formDetails);
   };
 
   const handleSaveForm = () => {
@@ -119,7 +122,7 @@ const FormMain = ({ formData, updateFormDetails, user }) => {
     tempObj.questions = tempArr;
     setFormDetails(tempObj);
 
-    updateFormDetails(tempObj);
+    // updateFormDetails(tempObj);
   };
 
   const HandleUpdateQuestion = (value, i, updateType) => {
@@ -141,7 +144,7 @@ const FormMain = ({ formData, updateFormDetails, user }) => {
       tempObj.questions = tempArr;
     }
     setFormDetails(tempObj);
-    updateFormDetails(tempObj);
+    // updateFormDetails(tempObj);
   };
 
   const handleRemoveQuestion = (i) => {
@@ -154,11 +157,11 @@ const FormMain = ({ formData, updateFormDetails, user }) => {
     tempObj.questions = updatedArr;
     setFormDetails(tempObj);
 
-    updateFormDetails(tempObj);
+    // updateFormDetails(tempObj);
   };
 
   const handleSeeForm = () => {
-    window.location.href = `/form/${formData?._id}`;
+    window.location.href = `/form/${formId}`;
   };
   // swap functions
 
@@ -187,7 +190,7 @@ const FormMain = ({ formData, updateFormDetails, user }) => {
     tempObj.questions = sortedOrder;
     setFormDetails(tempObj);
 
-    updateFormDetails(tempObj);
+    // updateFormDetails(tempObj);
   }
   // swap functions
   return (
