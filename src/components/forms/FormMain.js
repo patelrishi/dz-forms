@@ -182,17 +182,17 @@ const FormMain = ({ formData, updateFormDetails, user }) => {
       <div>
         <div className={classes.formTitleSection}>
           <>
+            <H6>Enter Form Title</H6>
             <CommonTextField
               variant="standard"
               color="primary"
-              label="Form Title"
               value={formDetails?.name}
               onChange={(e) => handleTitleChange(e.target.value)}
             />
+            <H6>Enter Form Description</H6>
             <CommonTextField
               variant="standard"
               color="primary"
-              label="Form Description"
               value={formDetails?.description}
               onChange={(e) => handleDesChange(e.target.value)}
             />
