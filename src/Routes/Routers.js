@@ -9,6 +9,7 @@ const DashboardContainer = lazy(() => import("../containers/DashBoard"));
 const NotFound = lazy(() => import("../containers/NotFound"));
 const AuthContainer = lazy(() => import("../containers/AuthContainer"));
 const FormContainer = lazy(() => import("../containers/FormContainer"));
+const FormViewContainer = lazy(() => import("../containers/FormViewContainer"));
 
 let PrivateRouteArr = [
   {
@@ -17,7 +18,7 @@ let PrivateRouteArr = [
     key: "dashboard",
   },
   {
-    component: <FormContainer />,
+    component: <FormViewContainer />,
     path: "/form/:formId",
     key: "formView",
   },

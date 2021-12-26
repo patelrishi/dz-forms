@@ -1,12 +1,12 @@
 import React, { Component } from "react";
 import NavBarMain from "../components/Navbar.js/NavBarMain";
-import FormMain from "../components/forms/FormMain";
 import {
   START_GET_FORM_DETAILS,
   START_UPDATE_FORM_DETAILS,
 } from "../constants/FormConstants";
 import { connect } from "react-redux";
-class FormContainer extends Component {
+import FormViewMain from "../components/forms/FormViewMain";
+class FormViewContainer extends Component {
   componentDidMount() {
     const { getFormDetails, user } = this.props;
     const id = window.location.pathname.split("/").at(-1);
@@ -20,8 +20,8 @@ class FormContainer extends Component {
     const { user, formData, updateFormDetails } = this.props;
     return (
       <>
-        <NavBarMain tabs={["questions", "responses", "settings"]} />
-        <FormMain
+        <NavBarMain />
+        <FormViewMain
           formData={formData}
           updateFormDetails={updateFormDetails}
           user={user}
@@ -46,4 +46,4 @@ const mapDispatchToProps = (dispatch) => ({
   updateFormDetails: (data) =>
     dispatch({ type: START_UPDATE_FORM_DETAILS, data }),
 });
-export default connect(mapStateToProps, mapDispatchToProps)(FormContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(FormViewContainer);

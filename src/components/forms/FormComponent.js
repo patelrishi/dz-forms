@@ -6,8 +6,6 @@ import {
   FormControlLabel,
   IconButton,
   MenuItem,
-  Radio,
-  RadioGroup,
   Select,
   Switch,
 } from "@mui/material";
@@ -25,15 +23,15 @@ const useStyles = makeStyles((theme) => ({
     background: "#FFFFFF",
     boxShadow: "0px 2px 4px rgb(16 7 33 / 12%)",
     borderRadius: 12,
-    padding: 16,
     marginBottom: 16,
     display: "flex",
     alignItems: "center",
     "&>div": {
       width: "100%",
+      padding: "16px 16px 16px 0",
     },
     "&>svg": {
-      marginRight: 16,
+      margin: "0 8px",
       color: "#808080",
     },
   },

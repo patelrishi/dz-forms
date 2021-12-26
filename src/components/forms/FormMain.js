@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
 import { Container, Divider } from "@mui/material";
 import { Button, IconButton, makeStyles } from "@material-ui/core";
 import FormComponent from "./FormComponent";
-import { H1, H4, H6 } from "../common/typography/Header";
+import { H4, H6 } from "../common/typography/Header";
 import CommonTextField from "../common/textfields/CommonTextField";
 import { DragDropContext } from "react-beautiful-dnd";
 import { Droppable } from "react-beautiful-dnd";
@@ -14,27 +13,39 @@ const useStyles = makeStyles((theme) => ({
   formRoot: {
     marginTop: 67,
     borderRadius: 12,
-    "&>div": {
-      "&>button": {
-        marginRight: 16,
-        marginBottom: 36,
-      },
+    "&>button": {
+      marginRight: 16,
+      marginBottom: 36,
     },
   },
   formTitleSection: {
     height: "fit-content",
     width: "100%",
-    // height: "fit-content",
+    "&>div": {
+      borderRadius: 12,
+      borderTop: "10px solid #9c27b0",
+      background: "#FFFFFF",
+      boxShadow: "0px 2px 4px rgb(16 7 33 / 12%)",
+      padding: 16,
+      marginBottom: 16,
+      "&>hr": {
+        margin: "16px 0",
+      },
+      "&>h5": {
+        color: "#808080",
+      },
+      "&>div": {
+        marginBottom: 8,
+      },
+    },
+  },
+  questionSection: {
+    minHeight: 200,
     background: "#FFFFFF",
     boxShadow: "0px 2px 4px rgb(16 7 33 / 12%)",
     borderRadius: 12,
-    padding: 16,
-    marginBottom: 16,
-    "&>hr": {
-      margin: "16px 0",
-    },
     "&>div": {
-      marginBottom: 8,
+      padding: 16,
     },
   },
 }));
@@ -146,7 +157,9 @@ const FormMain = ({ formData, updateFormDetails, user }) => {
     updateFormDetails(tempObj);
   };
 
-  const handleSeeForm = () => {};
+  const handleSeeForm = () => {
+    window.location.href = `/form/${formData?._id}`;
+  };
   // swap functions
 
   const reorder = (list, startIndex, endIndex) => {
@@ -179,17 +192,17 @@ const FormMain = ({ formData, updateFormDetails, user }) => {
   // swap functions
   return (
     <Container className={classes.formRoot} maxWidth="md">
-      <div>
-        <div className={classes.formTitleSection}>
+      <div className={classes.formTitleSection}>
+        <div>
           <>
-            <H6>Enter Form Title</H6>
+            <H4 bold>Enter Form Title</H4>
             <CommonTextField
               variant="standard"
               color="primary"
               value={formDetails?.name}
               onChange={(e) => handleTitleChange(e.target.value)}
             />
-            <H6>Enter Form Description</H6>
+            <H6 bold>Enter Form Description</H6>
             <CommonTextField
               variant="standard"
               color="primary"
@@ -209,52 +222,52 @@ const FormMain = ({ formData, updateFormDetails, user }) => {
             disabled
           />
         </div>
-        {/* draggable area */}
-        <DragDropContext onDragEnd={onDragEnd}>
-          <Droppable droppableId="list">
-            {(provided) => (
-              <div ref={provided.innerRef} {...provided.droppableProps}>
-                {formCompArray.map((item, index) => {
-                  return (
-                    <Draggable
-                      draggableId={`${index}`}
-                      key={`${index}`}
-                      index={index}
-                    >
-                      {(provided) => (
-                        <div
-                          ref={provided.innerRef}
-                          {...provided.draggableProps}
-                          {...provided.dragHandleProps}
-                        >
-                          <FormComponent
-                            data={item}
-                            handleRemoveQuestion={handleRemoveQuestion}
-                            handleCopyQuestion={handleCopyQuestion}
-                            HandleUpdateQuestion={HandleUpdateQuestion}
-                            index={index}
-                          />
-                        </div>
-                      )}
-                    </Draggable>
-                  );
-                })}
-                {provided.placeholder}
-              </div>
-            )}
-          </Droppable>
-        </DragDropContext>
-        {/* draggable area */}
-        <Button color="primary" variant="outlined" onClick={handleAddQuestion}>
-          add Question
-        </Button>
-        <Button color="primary" variant="contained" onClick={handleSaveForm}>
-          Save Form
-        </Button>
-        <IconButton color="primary" onClick={handleSeeForm}>
-          <PreviewIcon />
-        </IconButton>
       </div>
+      {/* draggable area */}
+      <DragDropContext onDragEnd={onDragEnd}>
+        <Droppable droppableId="list">
+          {(provided) => (
+            <div ref={provided.innerRef} {...provided.droppableProps}>
+              {formCompArray.map((item, index) => {
+                return (
+                  <Draggable
+                    draggableId={`${index}`}
+                    key={`${index}`}
+                    index={index}
+                  >
+                    {(provided) => (
+                      <div
+                        ref={provided.innerRef}
+                        {...provided.draggableProps}
+                        {...provided.dragHandleProps}
+                      >
+                        <FormComponent
+                          data={item}
+                          handleRemoveQuestion={handleRemoveQuestion}
+                          handleCopyQuestion={handleCopyQuestion}
+                          HandleUpdateQuestion={HandleUpdateQuestion}
+                          index={index}
+                        />
+                      </div>
+                    )}
+                  </Draggable>
+                );
+              })}
+              {provided.placeholder}
+            </div>
+          )}
+        </Droppable>
+      </DragDropContext>
+      {/* draggable area */}
+      <Button color="primary" variant="outlined" onClick={handleAddQuestion}>
+        add Question
+      </Button>
+      <Button color="primary" variant="contained" onClick={handleSaveForm}>
+        Save Form
+      </Button>
+      <IconButton color="primary" onClick={handleSeeForm}>
+        <PreviewIcon />
+      </IconButton>
     </Container>
   );
 };
