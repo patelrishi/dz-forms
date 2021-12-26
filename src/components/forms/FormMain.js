@@ -1,21 +1,28 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Container, Divider } from "@mui/material";
-import { makeStyles } from "@material-ui/core";
+import { Button, IconButton, makeStyles } from "@material-ui/core";
 import FormComponent from "./FormComponent";
 import { H1, H4, H6 } from "../common/typography/Header";
 import CommonTextField from "../common/textfields/CommonTextField";
 import { DragDropContext } from "react-beautiful-dnd";
 import { Droppable } from "react-beautiful-dnd";
 import { Draggable } from "react-beautiful-dnd";
+import PreviewIcon from "@mui/icons-material/Preview";
 
 const useStyles = makeStyles((theme) => ({
   formRoot: {
     marginTop: 67,
     borderRadius: 12,
+    "&>div": {
+      "&>button": {
+        marginRight: 16,
+        marginBottom: 36,
+      },
+    },
   },
   formTitleSection: {
-    height: 160,
+    height: "fit-content",
     width: "100%",
     // height: "fit-content",
     background: "#FFFFFF",
@@ -26,106 +33,122 @@ const useStyles = makeStyles((theme) => ({
     "&>hr": {
       margin: "16px 0",
     },
+    "&>div": {
+      marginBottom: 8,
+    },
   },
 }));
-
-let ComponentArr = [
-  {
-    name: "rishi1",
-    createdBy: "",
-    question: "what is speed",
-    options: [
-      {
-        optiontext: "yes",
-      },
-      {
-        optiontext: "no",
-      },
-      {
-        optiontext: "Maybe",
-      },
-      {
-        optiontext: "Never",
-      },
-      {
-        optiontext: "someday",
-      },
-    ],
-  },
-  {
-    name: "rishi2",
-    question: "what is velocity",
-    options: [
-      {
-        optiontext: "yes",
-      },
-      {
-        optiontext: "no",
-      },
-      {
-        optiontext: "Maybe",
-      },
-      {
-        optiontext: "Never",
-      },
-      {
-        optiontext: "someday",
-      },
-    ],
-  },
-  {
-    name: "rishi3",
-    question: "what is Rampage",
-    options: [
-      {
-        optiontext: "yes",
-      },
-      {
-        optiontext: "no",
-      },
-      {
-        optiontext: "Maybe",
-      },
-      {
-        optiontext: "Never",
-      },
-      {
-        optiontext: "someday",
-      },
-    ],
-  },
-];
 
 const FormMain = ({ formData, updateFormDetails }) => {
   const classes = useStyles();
 
   const [formDetails, setFormDetails] = useState("");
-  // const [formCompArray, setformCompArray] = useState([]);
+  const [formCompArray, setformCompArray] = useState([]);
 
   useEffect(() => {
-    if (formData?.questions !== undefined) {
+    if (formData !== undefined) {
       // setformCompArray(formData?.questions);
       setFormDetails(formData);
     }
   }, [formData]);
 
+  useEffect(() => {
+    if (formDetails?.questions !== undefined) {
+      setformCompArray(formDetails?.questions);
+    }
+  }, [formDetails]);
+
+  // useEffect(() => {
+  //   if (formDetails !== "") {
+  //     updateFormDetails(formDetails);
+  //   }
+  // }, [formDetails]);
+
   const handleTitleChange = (value) => {
     let tempObj = { ...formDetails };
     tempObj.name = value;
     setFormDetails(tempObj);
+    //
+    updateFormDetails(formDetails);
   };
   const handleDesChange = (value) => {
     let tempObj = { ...formDetails };
     tempObj.description = value;
     setFormDetails(tempObj);
+    //
+    updateFormDetails(formDetails);
   };
 
-  useEffect(() => {
+  const handleAddQuestion = () => {
+    let queObj = {
+      type: "shortQue",
+      questionText: "",
+      options: [],
+    };
+    let tempObj = { ...formDetails };
+    let tempArr = [...formDetails.questions, queObj];
+
+    tempObj.questions = tempArr;
+    setFormDetails(tempObj);
+    //
+    updateFormDetails(formDetails);
+  };
+
+  const handleSaveForm = () => {
     if (formDetails !== "") {
       updateFormDetails(formDetails);
     }
-  }, [formDetails]);
+  };
+
+  const handleCopyQuestion = (obj, i) => {
+    let tempArr = [...formDetails.questions];
+    tempArr.splice(i, 0, obj);
+
+    let tempObj = { ...formDetails };
+    tempObj.questions = tempArr;
+    setFormDetails(tempObj);
+
+    updateFormDetails(tempObj);
+  };
+
+  const HandleUpdateQuestion = (value, i, updateType) => {
+    let tempArr = [...formDetails.questions];
+    let tempObj = { ...formDetails };
+    // get object index
+
+    // update that object
+    if (updateType === "question") {
+      tempArr[i].questionText = value;
+      tempObj.questions = tempArr;
+    }
+    if (updateType === "type") {
+      tempArr[i].type = value;
+      tempObj.questions = tempArr;
+    }
+    if (updateType === "options") {
+      tempArr[i].options = value;
+      tempObj.questions = tempArr;
+    }
+    setFormDetails(tempObj);
+    updateFormDetails(tempObj);
+  };
+
+  const handleRemoveQuestion = (i) => {
+    let tempArr = [...formDetails.questions];
+    // get object index
+    const updatedArr = tempArr.filter((obj, index) => index !== i);
+    // update that object
+
+    let tempObj = { ...formDetails };
+    tempObj.questions = updatedArr;
+    setFormDetails(tempObj);
+
+    updateFormDetails(tempObj);
+  };
+
+  const handleSeeForm = () => {};
   // swap functions
+
   const reorder = (list, startIndex, endIndex) => {
     const result = Array.from(list);
     const [removed] = result.splice(startIndex, 1);
@@ -135,7 +158,6 @@ const FormMain = ({ formData, updateFormDetails }) => {
   };
 
   function onDragEnd(result) {
-    console.log("result", result);
     if (!result.destination) {
       return;
     }
@@ -143,41 +165,18 @@ const FormMain = ({ formData, updateFormDetails }) => {
     if (result.destination.index === result.source.index) {
       return;
     }
-
+    const tempObj = { ...formDetails };
     const sortedOrder = reorder(
-      formDetails.questions,
+      tempObj.questions,
       result.source.index,
       result.destination.index
     );
-    formDetails.questions = sortedOrder;
-    setFormDetails(sortedOrder);
+    tempObj.questions = sortedOrder;
+    setFormDetails(tempObj);
+
+    updateFormDetails(tempObj);
   }
-
-  const handleCopyQuestion = (obj, i) => {
-    let tempArr = [...formDetails.questions];
-    tempArr.splice(i, 0, obj);
-    formDetails.questions = tempArr;
-    setFormDetails(formDetails);
-  };
-
-  const HandleUpdateQuestion = (value, i) => {
-    let tempArr = [...formDetails.questions];
-    // get object index
-    const objIndex = tempArr.findIndex((obj, index) => index === i);
-    // update that object
-    tempArr[objIndex].optiontext = value;
-    formDetails.questions = tempArr;
-    setFormDetails(formDetails);
-  };
-
-  const handleRemoveQuestion = (i) => {
-    let tempArr = [...formDetails.questions];
-    // get object index
-    const updatedArr = tempArr.filter((obj, index) => index !== i);
-    // update that object
-    formDetails.questions = updatedArr;
-    setFormDetails(formDetails);
-  };
+  // swap functions
   return (
     <Container className={classes.formRoot} maxWidth="md">
       <div>
@@ -186,12 +185,14 @@ const FormMain = ({ formData, updateFormDetails }) => {
             <CommonTextField
               variant="standard"
               color="primary"
+              label="Form Title"
               value={formDetails?.name}
               onChange={(e) => handleTitleChange(e.target.value)}
             />
             <CommonTextField
               variant="standard"
               color="primary"
+              label="Form Description"
               value={formDetails?.description}
               onChange={(e) => handleDesChange(e.target.value)}
             />
@@ -212,7 +213,7 @@ const FormMain = ({ formData, updateFormDetails }) => {
           <Droppable droppableId="list">
             {(provided) => (
               <div ref={provided.innerRef} {...provided.droppableProps}>
-                {formDetails?.questions?.map((item, index) => {
+                {formCompArray.map((item, index) => {
                   return (
                     <Draggable
                       draggableId={`${index}`}
@@ -243,6 +244,15 @@ const FormMain = ({ formData, updateFormDetails }) => {
           </Droppable>
         </DragDropContext>
         {/* draggable area */}
+        <Button color="primary" variant="outlined" onClick={handleAddQuestion}>
+          add Question
+        </Button>
+        <Button color="primary" variant="contained" onClick={handleSaveForm}>
+          Save Form
+        </Button>
+        <IconButton color="primary" onClick={handleSeeForm}>
+          <PreviewIcon />
+        </IconButton>
       </div>
     </Container>
   );

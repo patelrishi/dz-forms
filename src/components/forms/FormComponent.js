@@ -106,34 +106,46 @@ const FormComponent = ({
   handleRemoveQuestion,
 }) => {
   const classes = useStyles();
-  const [queType, setqueType] = useState("shortQue");
-
+  const [queType, setqueType] = useState("");
   const [optionArr, setOptionArr] = useState([]);
 
   useEffect(() => {
     if (data.options !== undefined && data.options.length > 0) {
-      setOptionArr(data.options);
+      setOptionArr(data?.options);
+    }
+    if (data.type !== undefined) {
+      setqueType(data?.type);
     }
   }, [data]);
 
+  // useEffect(() => {
+  //   effect;
+  //   return () => {
+  //     cleanup;
+  //   };
+  // }, [input]);
+
   const handleChange = (e) => {
     setqueType(e.target.value);
+    HandleUpdateQuestion(e.target.value, index, "type");
   };
 
   const handleAddOption = () => {
     let obj = {
-      optiontext: "",
+      optionText: "",
     };
     let tempArr = [...optionArr, obj];
     setOptionArr(tempArr);
+    HandleUpdateQuestion(tempArr, index, "options");
   };
 
   const handleUpdateOption = (value, i) => {
     let tempArr = [...optionArr];
 
     // update that object
-    tempArr[i].optiontext = value;
+    tempArr[i].optionText = value;
     setOptionArr(tempArr);
+    HandleUpdateQuestion(tempArr, index, "options");
   };
 
   const handleRemoveOption = (i) => {
@@ -142,6 +154,7 @@ const FormComponent = ({
     const updatedArr = tempArr.filter((obj, index) => index !== i);
     // update that object
     setOptionArr(updatedArr);
+    HandleUpdateQuestion(updatedArr, index, "options");
   };
 
   return (
@@ -153,8 +166,10 @@ const FormComponent = ({
             variant="standard"
             label="question"
             color="primary"
-            value={data?.question}
-            onChange={(e) => HandleUpdateQuestion(e.target.value, index)}
+            value={data?.questionText}
+            onChange={(e) =>
+              HandleUpdateQuestion(e.target.value, index, "question")
+            }
           />
           <Select
             labelId="demo-simple-select-label"
@@ -196,7 +211,7 @@ const FormComponent = ({
                   <RadioButton disabled>
                     <CommonTextField
                       variant="standard"
-                      value={elem.optiontext}
+                      value={elem.optionText}
                       onChange={(e) => handleUpdateOption(e.target.value, i)}
                     />
                   </RadioButton>
@@ -217,7 +232,7 @@ const FormComponent = ({
                   <LightActiveCheckBox disabled>
                     <CommonTextField
                       variant="standard"
-                      value={elem.optiontext}
+                      value={elem.optionText}
                       onChange={(e) => handleUpdateOption(e.target.value, i)}
                     />
                   </LightActiveCheckBox>
@@ -236,7 +251,7 @@ const FormComponent = ({
                 <div className={classes.OptionField}>
                   <CommonTextField
                     variant="standard"
-                    value={elem.optiontext}
+                    value={elem.optionText}
                     onChange={(e) => handleUpdateOption(e.target.value, i)}
                   />
 

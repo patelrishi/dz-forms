@@ -64,7 +64,7 @@ const useStyles = makeStyles((theme) => ({
 const DashboardMain = ({ createForm, user, formData, isFormLoading }) => {
   const classes = useStyles();
 
-  // console.log(formData.form._id);
+
   useEffect(() => {
     if (formData?.form?._id !== undefined && isFormLoading === false) {
       window.location.href = `/form/edit/${formData?.form?._id}`;
