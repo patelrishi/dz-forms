@@ -38,6 +38,9 @@ const useStyles = makeStyles((theme) => ({
       "&>div": {
         marginBottom: 8,
       },
+      "&>button": {
+        marginRight: 16,
+      },
     },
   },
   questionSection: {
@@ -163,6 +166,10 @@ const FormMain = ({ formData, updateFormDetails, user }) => {
   const handleSeeForm = () => {
     window.location.href = `/form/${formId}`;
   };
+
+  const handleSeeResponse = () => {
+    window.location.href = `/form/response/${formId}`;
+  };
   // swap functions
 
   const reorder = (list, startIndex, endIndex) => {
@@ -224,6 +231,23 @@ const FormMain = ({ formData, updateFormDetails, user }) => {
             required
             disabled
           />
+          <Button
+            color="primary"
+            variant="outlined"
+            onClick={handleAddQuestion}
+          >
+            add Question
+          </Button>
+          <Button
+            color="primary"
+            variant="contained"
+            onClick={handleSeeResponse}
+          >
+            See Responses
+          </Button>
+          <IconButton color="primary" onClick={handleSeeForm}>
+            <PreviewIcon />
+          </IconButton>
         </div>
       </div>
       {/* draggable area */}

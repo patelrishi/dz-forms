@@ -10,6 +10,7 @@ const NotFound = lazy(() => import("../containers/NotFound"));
 const AuthContainer = lazy(() => import("../containers/AuthContainer"));
 const FormContainer = lazy(() => import("../containers/FormContainer"));
 const FormViewContainer = lazy(() => import("../containers/FormViewContainer"));
+const ResponeContainer = lazy(() => import("../containers/ResponeContainer"));
 
 let PrivateRouteArr = [
   {
@@ -26,6 +27,16 @@ let PrivateRouteArr = [
     component: <FormContainer />,
     path: "/form/edit/:formId",
     key: "formEdit",
+  },
+  {
+    component: <ResponeContainer />,
+    path: "/form/response/:formId",
+    key: "response",
+  },
+  {
+    component: <ResponeContainer />,
+    path: "/form/response/s/:responseId",
+    key: "singleResponse",
   },
 ];
 

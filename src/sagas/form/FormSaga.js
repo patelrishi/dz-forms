@@ -2,6 +2,8 @@ import { call, put, takeEvery } from "redux-saga/effects";
 import {
   createForm,
   getFormDetails,
+  getSingleFormResponse,
+  getSingleResponse,
   getUserFormList,
   submitResponse,
   updateFormDetails,
@@ -9,17 +11,23 @@ import {
 import {
   ERROR_CREATE_FORM,
   ERROR_GET_FORM_DETAILS,
+  ERROR_GET_SINGLE_RESPONSE,
   ERROR_GET_USER_FORMS,
+  ERROR_SINGLE_FORM_RESPONSE,
   ERROR_SUBMIT_FORM,
   ERROR_UPDATE_FORM_DETAILS,
   START_CREATE_FORM,
   START_GET_FORM_DETAILS,
+  START_GET_SINGLE_RESPONSE,
   START_GET_USER_FORMS,
+  START_SINGLE_FORM_RESPONSE,
   START_SUBMIT_FORM,
   START_UPDATE_FORM_DETAILS,
   SUCCESS_CREATE_FORM,
   SUCCESS_GET_FORM_DETAILS,
+  SUCCESS_GET_SINGLE_RESPONSE,
   SUCCESS_GET_USER_FORMS,
+  SUCCESS_SINGLE_FORM_RESPONSE,
   SUCCESS_SUBMIT_FORM,
   SUCCESS_UPDATE_FORM_DETAILS,
 } from "../../constants/FormConstants";
@@ -152,4 +160,56 @@ function* formSubmitWorker({ data }) {
 
 export function* formSubmitWatcher() {
   yield takeEvery(START_SUBMIT_FORM, formSubmitWorker);
+}
+
+function* singleFormResponseWorker({ _id }) {
+  const response = yield call(getSingleFormResponse, _id);
+  try {
+    if (response) {
+      yield put({
+        type: SUCCESS_SINGLE_FORM_RESPONSE,
+        response: response,
+      });
+    } else {
+      yield put({
+        type: ERROR_SINGLE_FORM_RESPONSE,
+        data: response,
+      });
+    }
+  } catch (error) {
+    yield put({
+      type: ERROR_SINGLE_FORM_RESPONSE,
+      data: response,
+    });
+  }
+}
+
+export function* singleFormResponseWatcher() {
+  yield takeEvery(START_SINGLE_FORM_RESPONSE, singleFormResponseWorker);
+}
+
+function* singleResponseWorker({ _id }) {
+  const data = yield call(getSingleResponse, _id);
+  try {
+    if (data) {
+      yield put({
+        type: SUCCESS_GET_SINGLE_RESPONSE,
+        response: data.response,
+      });
+    } else {
+      yield put({
+        type: ERROR_GET_SINGLE_RESPONSE,
+        data: data,
+      });
+    }
+  } catch (error) {
+    yield put({
+      type: ERROR_GET_SINGLE_RESPONSE,
+      data: data,
+    });
+  }
+}
+
+export function* singleResponseWatcher() {
+  yield takeEvery(START_GET_SINGLE_RESPONSE, singleResponseWorker);
 }

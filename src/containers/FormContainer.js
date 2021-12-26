@@ -20,7 +20,7 @@ class FormContainer extends Component {
     const { user, formData, updateFormDetails } = this.props;
     return (
       <>
-        <NavBarMain tabs={["questions", "responses", "settings"]} />
+        <NavBarMain />
         <FormMain
           formData={formData}
           updateFormDetails={updateFormDetails}

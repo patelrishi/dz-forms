@@ -5,6 +5,8 @@ import {
   formSubmitWatcher,
   formUpdateWatcher,
   getUserFormListWatcher,
+  singleFormResponseWatcher,
+  singleResponseWatcher,
 } from "./form/FormSaga";
 import {
   userDetailsWatcher,
@@ -22,5 +24,7 @@ export default function* rootSaga() {
     formUpdateWatcher(),
     getUserFormListWatcher(),
     formSubmitWatcher(),
+    singleFormResponseWatcher(),
+    singleResponseWatcher(),
   ]);
 }

@@ -14,6 +14,12 @@ import {
   START_SUBMIT_FORM,
   SUCCESS_SUBMIT_FORM,
   ERROR_SUBMIT_FORM,
+  START_SINGLE_FORM_RESPONSE,
+  SUCCESS_SINGLE_FORM_RESPONSE,
+  ERROR_SINGLE_FORM_RESPONSE,
+  START_GET_SINGLE_RESPONSE,
+  SUCCESS_GET_SINGLE_RESPONSE,
+  ERROR_GET_SINGLE_RESPONSE,
 } from "../../constants/FormConstants";
 
 const initState = {
@@ -24,6 +30,10 @@ const initState = {
   userForms: [],
   isUserFormsListLoading: false,
   submitResponse: "",
+  formResponses: [],
+  isFormResponseLoading: false,
+  singleResponse: "",
+  isResponseLoading: false,
 };
 
 export const form = (previousState, action) => {
@@ -120,6 +130,42 @@ export const form = (previousState, action) => {
         error: action.response,
       };
 
+    case START_SINGLE_FORM_RESPONSE:
+      return {
+        ...previousState,
+        formResponses: [],
+        isFormResponseLoading: true,
+      };
+    case SUCCESS_SINGLE_FORM_RESPONSE:
+      return {
+        ...previousState,
+        isFormResponseLoading: false,
+        formResponses: action.response,
+      };
+    case ERROR_SINGLE_FORM_RESPONSE:
+      return {
+        ...previousState,
+        error: action.response,
+      };
+
+    case START_GET_SINGLE_RESPONSE:
+      return {
+        ...previousState,
+        singleResponse: "",
+        isResponseLoading: true,
+      };
+    case SUCCESS_GET_SINGLE_RESPONSE:
+      return {
+        ...previousState,
+        isResponseLoading: false,
+        singleResponse: action.response,
+      };
+    case ERROR_GET_SINGLE_RESPONSE:
+      return {
+        ...previousState,
+        isResponseLoading: false,
+        error: action.response,
+      };
     default:
       return previousState || initState;
   }

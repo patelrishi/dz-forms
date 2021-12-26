@@ -23,3 +23,12 @@ export function submitResponse(data) {
   const response = api.post(`/forms/response`, data);
   return response;
 }
+export function getSingleFormResponse(_id) {
+  const response = api.get(`/forms/response/all`, { _id });
+  return response;
+}
+
+export function getSingleResponse(_id) {
+  const response = api.get(`/forms/response`, { _id });
+  return response;
+}
