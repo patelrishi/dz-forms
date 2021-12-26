@@ -1,9 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { Button, CircularProgress, Grid, makeStyles } from "@material-ui/core";
+import {
+  Button,
+  CircularProgress,
+  Grid,
+  Link,
+  makeStyles,
+} from "@material-ui/core";
 import CommonTextField from "../common/textfields/CommonTextField";
 import { H5, H6 } from "../common/typography/Header";
 import { Body1 } from "../common/typography/Typography";
-import { Link } from "react-router-dom";
 import { START_USER_REGISTER } from "../../constants/UserConstants";
 import { connect } from "react-redux";
 
@@ -171,7 +176,10 @@ const RegisterForm = ({ userDataLoading, register, user, error }) => {
           Get started
         </Button>
         <Body1 medium>
-          Already Member? <Link to="/login">Login</Link>
+          Already Member?{" "}
+          <Link href="/login" underline="none">
+            Login
+          </Link>
         </Body1>
       </div>
     </Grid>

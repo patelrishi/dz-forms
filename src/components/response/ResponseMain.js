@@ -83,7 +83,7 @@ const ResponseMain = ({ formResponses, singleResponse }) => {
                 singleResponse.response.map((elem) => (
                   <div>
                     <H6>{elem.questionText}</H6>
-                    <div>{elem.ans}</div>
+                    <div>{elem.ans.toString()}</div>
                   </div>
                 ))}
             </div>

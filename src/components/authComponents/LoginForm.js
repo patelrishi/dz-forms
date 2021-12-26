@@ -1,11 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { Button, CircularProgress, Grid, makeStyles } from "@material-ui/core";
+import {
+  Button,
+  CircularProgress,
+  Grid,
+  Link,
+  makeStyles,
+} from "@material-ui/core";
 import CommonTextField from "../common/textfields/CommonTextField";
 import { H5, H6 } from "../common/typography/Header";
 import { Body1 } from "../common/typography/Typography";
 import { connect } from "react-redux";
 import { START_USER_LOGIN } from "../../constants/UserConstants";
-import { Link } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   loginRoot: {
@@ -126,7 +131,10 @@ const LoginForm = ({ login, userDataLoading, user, error }) => {
           Get started
         </Button>
         <Body1 medium>
-          New Here? <Link to="/register">Register</Link>
+          New Here?{" "}
+          <Link href="/register" underline="none">
+            Register
+          </Link>
         </Body1>
       </div>
     </Grid>
