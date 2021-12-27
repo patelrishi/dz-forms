@@ -93,8 +93,7 @@ const ResponseMain = ({ formResponses, singleResponse }) => {
         <div>
           <H4 bold>responses</H4>
           <div className={classes.responseGroup}>
-            {formResponses !== undefined &&
-              formResponses?.length > 0 &&
+            {formResponses !== undefined && formResponses?.length > 0 ? (
               formResponses?.map((elem) => (
                 <div className={classes.responeBar}>
                   <div>
@@ -109,7 +108,10 @@ const ResponseMain = ({ formResponses, singleResponse }) => {
                     </Button>
                   </div>
                 </div>
-              ))}
+              ))
+            ) : (
+              <H6>this form does not have any resposes</H6>
+            )}
           </div>
         </div>
       )}

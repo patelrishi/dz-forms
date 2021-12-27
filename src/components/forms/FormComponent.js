@@ -164,6 +164,7 @@ const FormComponent = ({
             label="question"
             color="primary"
             value={data?.questionText}
+            required={data.required}
             onChange={(e) =>
               HandleUpdateQuestion(e.target.value, index, "question")
             }
@@ -271,7 +272,15 @@ const FormComponent = ({
           </IconButton>
           <Divider orientation="vertical" variant="middle" flexItem />
           <FormControlLabel
-            control={<Switch defaultChecked color="primary" />}
+            control={
+              <Switch
+                checked={data.required}
+                onChange={() =>
+                  HandleUpdateQuestion(data.required, index, "required")
+                }
+                color="secondary"
+              />
+            }
             label="required"
           />
         </div>

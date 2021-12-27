@@ -27,6 +27,10 @@ const useStyles = makeStyles((theme) => ({
         marginBottom: 36,
       },
     },
+    "&>p": {
+      color: "#d93025",
+      margin: "8px 0",
+    },
   },
   formTitleSection: {
     height: "fit-content",
@@ -48,6 +52,9 @@ const useStyles = makeStyles((theme) => ({
       "&>h4": {
         margin: "20px 0 10px 0",
       },
+      "&>p": {
+        color: "#d93025",
+      },
     },
   },
   questionSection: {
@@ -60,6 +67,12 @@ const useStyles = makeStyles((theme) => ({
       padding: 26,
       "&>h6": {
         margin: "10px 0",
+        "&>span": {
+          color: "#d93025",
+        },
+      },
+      "&>p": {
+        color: "#d93025",
       },
       "&>div": {
         // width: "40%",
@@ -97,6 +110,13 @@ const FormViewMain = ({
   const [formCompArray, setformCompArray] = useState([]);
   const [email, setEmail] = useState("");
 
+  const [requiredError, setRequiredError] = useState([]);
+  const [submitError, setSubmitError] = useState("");
+
+  const [emailError, setEmailError] = useState("");
+
+  console.log(formDetails);
+
   useEffect(() => {
     if (formData !== undefined) {
       // setformCompArray(formData?.questions);
@@ -133,19 +153,38 @@ const FormViewMain = ({
   };
 
   const handleSubmit = () => {
-    const data = {
-      formId: formDetails._id,
-      email,
-      response: formCompArray,
-    };
+    let dataError = 0;
+    const emailRegex =
+      /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+    if (!emailRegex.test(email)) {
+      dataError = 1;
+      setEmailError("Please enter a valid email address");
+    }
+    formCompArray.map((elem) => {
+      if (elem.required) {
+        if (elem.ans === "") {
+          dataError = 1;
+          setRequiredError("please fill  this required fields");
+          setSubmitError("please fill all required fields");
+        }
+      }
+    });
 
-    console.log(data);
-    submitForm(data);
+    if (dataError === 0) {
+      const data = {
+        formId: formDetails._id,
+        email,
+        response: formCompArray,
+      };
+
+      submitForm(data);
+    }
   };
 
   const handleChange = (value, index, type) => {
     const ansArr = [...formCompArray];
     // const tempObj = { ...formDetails };
+    setSubmitError("");
     if (type === "checkBox") {
       //   ansArr[index].ans;
       if (ansArr[index].ans.includes(value)) {
@@ -180,6 +219,7 @@ const FormViewMain = ({
                 <H2 bold>{formDetails?.name}</H2>
 
                 <H5>{formDetails?.description}</H5>
+                <Body1>Required *</Body1>
               </>
 
               <Divider />
@@ -189,9 +229,13 @@ const FormViewMain = ({
                 label="email"
                 color="primary"
                 value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={(e) => {
+                  setEmailError("");
+                  setEmail(e.target.value);
+                }}
                 required
               />
+              <Body1 bold>{emailError}</Body1>
             </div>
           </div>
 
@@ -199,7 +243,13 @@ const FormViewMain = ({
             formCompArray.map((que, index) => (
               <div className={classes.questionSection}>
                 <div>
-                  <H6>{que?.questionText}</H6>
+                  <H6>
+                    {que?.questionText} {que.required && <span>*</span>}
+                  </H6>
+                  {que.required && que.ans === "" && (
+                    <Body1 bold>{requiredError}</Body1>
+                  )}
+
                   {que?.type === "longQue" && (
                     <CommonTextField
                       variant="standard"
@@ -269,6 +319,7 @@ const FormViewMain = ({
                 </div>
               </div>
             ))}
+          <Body1>{submitError}</Body1>
           <div className={classes.buttonGroup}>
             <Button variant="contained" color="primary" onClick={handleSubmit}>
               Submit

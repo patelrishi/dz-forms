@@ -86,14 +86,14 @@ const FormMain = ({ formData, updateFormDetails, user }) => {
     tempObj.name = value;
     setFormDetails(tempObj);
     //
-    // updateFormDetails(formDetails);
+    updateFormDetails(formDetails);
   };
   const handleDesChange = (value) => {
     let tempObj = { ...formDetails };
     tempObj.description = value;
     setFormDetails(tempObj);
     //
-    // updateFormDetails(formDetails);
+    updateFormDetails(formDetails);
   };
 
   const handleAddQuestion = () => {
@@ -108,7 +108,7 @@ const FormMain = ({ formData, updateFormDetails, user }) => {
     tempObj.questions = tempArr;
     setFormDetails(tempObj);
     //
-    // updateFormDetails(formDetails);
+    updateFormDetails(formDetails);
   };
 
   const handleSaveForm = () => {
@@ -118,18 +118,24 @@ const FormMain = ({ formData, updateFormDetails, user }) => {
   };
 
   const handleCopyQuestion = (obj, i) => {
+    var tmpObj = {
+      options: obj.options,
+      questionText: obj.questionText,
+      required: obj.required,
+      type: obj.type,
+    };
     let tempArr = [...formDetails.questions];
-    tempArr.splice(i, 0, obj);
+    tempArr.splice(i, 0, tmpObj);
 
     let tempObj = { ...formDetails };
     tempObj.questions = tempArr;
     setFormDetails(tempObj);
-
-    // updateFormDetails(tempObj);
+    setformCompArray(tempArr);
+    updateFormDetails(tempObj);
   };
 
   const HandleUpdateQuestion = (value, i, updateType) => {
-    let tempArr = [...formDetails.questions];
+    let tempArr = [...formCompArray];
     let tempObj = { ...formDetails };
     // get object index
 
@@ -146,8 +152,12 @@ const FormMain = ({ formData, updateFormDetails, user }) => {
       tempArr[i].options = value;
       tempObj.questions = tempArr;
     }
+    if (updateType === "required") {
+      tempArr[i].required = !value;
+      tempObj.questions = tempArr;
+    }
     setFormDetails(tempObj);
-    // updateFormDetails(tempObj);
+    updateFormDetails(tempObj);
   };
 
   const handleRemoveQuestion = (i) => {
@@ -160,7 +170,7 @@ const FormMain = ({ formData, updateFormDetails, user }) => {
     tempObj.questions = updatedArr;
     setFormDetails(tempObj);
 
-    // updateFormDetails(tempObj);
+    updateFormDetails(tempObj);
   };
 
   const handleSeeForm = () => {
@@ -197,7 +207,7 @@ const FormMain = ({ formData, updateFormDetails, user }) => {
     tempObj.questions = sortedOrder;
     setFormDetails(tempObj);
 
-    // updateFormDetails(tempObj);
+    updateFormDetails(tempObj);
   }
   // swap functions
   return (
@@ -231,13 +241,6 @@ const FormMain = ({ formData, updateFormDetails, user }) => {
             required
             disabled
           />
-          <Button
-            color="primary"
-            variant="outlined"
-            onClick={handleAddQuestion}
-          >
-            add Question
-          </Button>
           <Button
             color="primary"
             variant="contained"
@@ -292,9 +295,6 @@ const FormMain = ({ formData, updateFormDetails, user }) => {
       <Button color="primary" variant="contained" onClick={handleSaveForm}>
         Save Form
       </Button>
-      <IconButton color="primary" onClick={handleSeeForm}>
-        <PreviewIcon />
-      </IconButton>
     </Container>
   );
 };
