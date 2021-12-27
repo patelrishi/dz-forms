@@ -19,11 +19,6 @@ let PrivateRouteArr = [
     key: "dashboard",
   },
   {
-    component: <FormViewContainer />,
-    path: "/form/:formId",
-    key: "formView",
-  },
-  {
     component: <FormContainer />,
     path: "/form/edit/:formId",
     key: "formEdit",
@@ -69,6 +64,7 @@ const Routers = () => {
                 status={404}
               />
             )}
+            <Route exact path="/form/:formId" element={<FormViewContainer />} />
             <Route exact path="/register" element={<AuthContainer />} />
             <Route exact path="/login" element={<AuthContainer />} />
 

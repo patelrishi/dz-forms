@@ -12,9 +12,8 @@ class FormViewContainer extends Component {
     const { getFormDetails, user } = this.props;
     const id = window.location.href.split("/").at(4);
 
-    if (user._id !== undefined && id !== undefined) {
-      const creator_id = user._id;
-      getFormDetails(id, creator_id);
+    if (id !== undefined) {
+      getFormDetails(id);
     }
   }
   render() {
@@ -22,7 +21,7 @@ class FormViewContainer extends Component {
       this.props;
     return (
       <>
-        <NavBarMain />
+        {/* <NavBarMain /> */}
         <FormViewMain
           formData={formData}
           updateFormDetails={updateFormDetails}

@@ -61,7 +61,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const ResponseMain = ({ formResponses, singleResponse }) => {
+const ResponseMain = ({ formResponses, singleResponse, formData }) => {
   const classes = useStyles();
   const { responseId } = useParams();
 
@@ -74,9 +74,8 @@ const ResponseMain = ({ formResponses, singleResponse }) => {
       {responseId ? (
         <>
           <div className={classes.formResponeMain}>
-            <H2 bold>formDetails?.name</H2>
-            <H5>formDetails?.description</H5>
             <H6>Response :</H6>
+            <H4 bold>{singleResponse?.userEmail}</H4>
             <div>
               {singleResponse?.response !== undefined &&
                 singleResponse.response.length > 0 &&
@@ -91,7 +90,8 @@ const ResponseMain = ({ formResponses, singleResponse }) => {
         </>
       ) : (
         <div>
-          <H4 bold>responses</H4>
+          <H2 bold>{formData?.name}</H2>
+          <H4>responses</H4>
           <div className={classes.responseGroup}>
             {formResponses !== undefined && formResponses?.length > 0 ? (
               formResponses?.map((elem) => (

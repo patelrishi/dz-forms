@@ -115,8 +115,6 @@ const FormViewMain = ({
 
   const [emailError, setEmailError] = useState("");
 
-  console.log(formDetails);
-
   useEffect(() => {
     if (formData !== undefined) {
       // setformCompArray(formData?.questions);
@@ -159,13 +157,14 @@ const FormViewMain = ({
     if (!emailRegex.test(email)) {
       dataError = 1;
       setEmailError("Please enter a valid email address");
+      setSubmitError("please fill all required fields...!");
     }
     formCompArray.map((elem) => {
       if (elem.required) {
         if (elem.ans === "") {
           dataError = 1;
-          setRequiredError("please fill  this required fields");
-          setSubmitError("please fill all required fields");
+          setRequiredError("please fill  this required fields...!");
+          setSubmitError("please fill all required fields...!");
         }
       }
     });
@@ -319,7 +318,7 @@ const FormViewMain = ({
                 </div>
               </div>
             ))}
-          <Body1>{submitError}</Body1>
+          <Body1 bold>{submitError}</Body1>
           <div className={classes.buttonGroup}>
             <Button variant="contained" color="primary" onClick={handleSubmit}>
               Submit
