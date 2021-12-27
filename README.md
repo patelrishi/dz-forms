@@ -12,7 +12,7 @@ backend:
 
 ### Env Variables
 
-Create a .env file in then root directory and add the following
+Create a .env file in the root directory and add the following
 
 ```
 REACT_APP_BASE_URL = https://main-api-dz-forms-staging.herokuapp.com/api/v1
