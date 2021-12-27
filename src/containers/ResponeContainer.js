@@ -12,12 +12,12 @@ class ResponeContainer extends Component {
   componentDidMount() {
     const { getFormResponses, getSingleResponse, getFormDetails } = this.props;
 
-    if (window.location.href.split("/").at(5) !== "s") {
-      const _id = window.location.href.split("/").at(5);
+    if (window.location.href.split("/")[5] !== "s") {
+      const _id = window.location.href.split("/")[5];
       getFormResponses(_id);
       getFormDetails(_id);
     } else {
-      const _id = window.location.href.split("/").at(6);
+      const _id = window.location.href.split("/")[6];
       getSingleResponse(_id);
       // getFormResponses(_id);
     }

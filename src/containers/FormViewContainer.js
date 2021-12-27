@@ -10,7 +10,7 @@ import FormViewMain from "../components/forms/FormViewMain";
 class FormViewContainer extends Component {
   componentDidMount() {
     const { getFormDetails, user } = this.props;
-    const id = window.location.href.split("/").at(4);
+    const id = window.location.href.split("/")[4];
 
     if (id !== undefined) {
       getFormDetails(id);
