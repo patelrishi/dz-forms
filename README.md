@@ -1,7 +1,7 @@
 # dz-forms
 
 frontend:
-https://staging-dz-forms-service.herokuapp.com/
+https://dev-staging-dz-forms.netlify.app
 
 backend:
  https://main-api-dz-forms-staging.herokuapp.com
